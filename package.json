@@ -1,0 +1,19 @@
+{
+    "name": "telegram-mining-bot",
+    "version": "1.0.0",
+    "description": "A simple Telegram bot for mining",
+    "main": "app.py",
+    "scripts": {
+      "start": "python3 app.py"
+    },
+    "dependencies": {
+      "flask": "^2.3.2",
+      "flask-sqlalchemy": "^2.5.1",
+      "python-telegram-bot": "^21.3",
+      "requests": "^2.31.0",
+      "sqlalchemy": "^1.4.36"
+    },
+    "engines": {
+      "node": "14.x"
+    }
+  }

@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Новый Бот</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #000000, #07127d);
+            background-image: url('/static/images/background.jpg');
+            background-position: center;
+            background-size: 130%;
+            overflow: hidden;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .phone-container {
+            position: relative;
+            width: 100%;
+            max-width: 375px;
+            height: 100%;
+            max-height: 812px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 2%;
+            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-button, .interactive-button, .large-button, .small-button {
+            width: 100%;
+            max-width: 320px;
+            background: linear-gradient(45deg, #000000, #07127d);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 20px;
+            font-size: 1.4rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.3), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+            outline: none;
+        }
+
+        .top-button:active, .interactive-button:active, .large-button:active, .small-button:active {
+            transform: translateY(4px);
+            box-shadow: 0px 5px 10px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-button img, .large-button img, .small-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .interactive-button-container {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            max-width: 240px;
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .interactive-button {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('/static/images/button.png');
+            background-size: cover;
+            background-position: center;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+            color: rgba(205, 205, 205, 255);
+            font-size: 1.5rem;
+            font-family: 'Roboto', sans-serif;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mining-display {
+            position: absolute;
+            top: 65%;
+            width: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 5px rgba(255, 255, 255, 0.3), -2px -2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .send-to-wallet-button {
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #000000, #07127d);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.3), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .send-to-wallet-button:active {
+            transform: translateY(4px);
+            box-shadow: 0px 5px 10px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-row {
+            position: absolute;
+            top: 85%;
+            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .large-button, .small-button {
+            background: linear-gradient(45deg, #000000, #07127d);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px #999;
+            transition: background-color 0.2s, transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.8;
+            padding: 10px 5px;
+            font-size: 1rem;
+        }
+
+        .large-button:hover,
+        .small-button:hover {
+            background: linear-gradient(45deg, #1C86EE, #009ACD);
+            opacity: 1;
+        }
+
+        .large-button:active,
+        .small-button:active {
+            box-shadow: 0 2px #666;
+        }
+
+        .large-button img,
+        .small-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .large-button span,
+        .small-button span {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .money-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: url('/static/images/coin.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: none;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .show-money-animation {
+            display: block;
+        }
+
+        .cirkl-animation {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-image: url('/static/images/cirkl.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: none;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .show-cirkl-animation {
+            display: block;
+        }
+
+        .wallet-info, .withdraw-info, .missions-info, .increase-mining-info, .friends-info, .wallet-balance-info {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .wallet-info button, .withdraw-info button, .missions-info button, .increase-mining-info button, .friends-info button, .wallet-balance-info button {
+            margin-top: 10px;
+        }
+
+        .missions-info .mission-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: #07127d;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .missions-info .mission-button {
+            margin-top: 10px;
+            background: linear-gradient(45deg, #000000, #07127d);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 1rem;
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.3), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .missions-info .mission-button:hover {
+            background: linear-gradient(45deg, #1C86EE, #009ACD);
+        }
+
+        .missions-info .mission-button:active {
+            transform: translateY(4px);
+            box-shadow: 0px 5px 10px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .increase-mining-info input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .increase-mining-info .cost-info {
+            font-size: 1.4rem;
+            font-weight: bold;
+            background: #07127d;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="phone-container">
+        <div class="container">
+            <div class="top-buttons">
+                <button class="top-button" onclick="toggleMenu('walletInfo')">
+                    <img src="static/images/give.png" alt="Give Icon"> Ввести Ton
+                </button>
+                <button class="top-button" onclick="toggleMenu('withdrawInfo')">
+                    <img src="static/images/send.png" alt="Send Icon"> Вывести Ton
+                </button>
+            </div>
+            <div class="interactive-button-container">
+                <a href="javascript:void(0)" class="interactive-button" onclick="startMining()">Start</a>
+                <div class="cirkl-animation"></div>
+            </div>
+            <div class="mining-display">Ton: 0.0000</div>
+            <button class="send-to-wallet-button" onclick="showWalletBalance()">Отправить в кошелек</button>
+            <div class="money-animation"></div>
+        </div>
+        <div class="button-row">
+            <button class="small-button left-button" onclick="toggleMenu('missionsInfo')">
+                <img src="static/images/missions.png" alt="Missions Icon"> Миссии
+            </button>
+            <button class="large-button" onclick="toggleMenu('increaseMiningInfo')">
+                <img src="static/images/increase.png" alt="Increase Icon"> <span>Увеличить добычу</span>
+            </button>
+            <button class="small-button right-button" onclick="toggleMenu('friendsInfo')">
+                <img src="static/images/friends.png" alt="Friends Icon"> Друзья
+            </button>
+        </div>
+        <div class="wallet-info" id="walletInfo">
+            <p>Отправляйте на этот адрес только Toncoin TON и токены в сети TON, иначе вы можете потерять свои средства.</p>
+            <p>Адрес кошелька: <strong>UQD-d3vPtKuTZQr-lniQ-hTgSqdUhoCo0jkQgZ4gyBLW6h7T</strong></p>
+            <button class="top-button" onclick="copyAddress()">Копировать адрес</button>
+            <button class="top-button" onclick="hideMenu('walletInfo')">Закрыть</button>
+        </div>
+        <div class="withdraw-info" id="withdrawInfo">
+            <p>Введите адрес вашего кошелька и количество Toncoin для вывода:</p>
+            <input type="text" id="walletAddress" placeholder="Адрес кошелька">
+            <input type="number" id="tonAmount" placeholder="Количество Toncoin" min="0" oninput="validateInput(this)">
+            <button class="top-button" onclick="submitWithdrawal()">Отправить</button>
+            <button class="top-button" onclick="hideMenu('withdrawInfo')">Закрыть</button>
+        </div>
+        <div class="missions-info" id="missionsInfo">
+            <p class="mission-title">Регистрация на бирже Gate.IO</p>
+            <p>Вознаграждение: 0.1 TON</p>
+            <a href="https://www.gate.io/ref/A1ZGXFpf/Group Name?ref_type=102" target="_blank">
+                <button class="mission-button">Регистрация</button>
+            </a>
+            <p class="mission-title">Регистрация на бирже OKX</p>
+            <p>Вознаграждение: 0.1 TON</p>
+            <a href="https://www.okx.com/join/35077133" target="_blank">
+                <button class="mission-button">Регистрация</button>
+            </a>
+            <button class="top-button" onclick="hideMenu('missionsInfo')">Закрыть</button>
+        </div>
+        <div class="increase-mining-info" id="increaseMiningInfo">
+            <p class="cost-info">Стоимость 100 GH/s 1 Ton</p>
+            <p>На сколько GH/s увеличить добычу:</p>
+            <input type="number" id="ghsAmount" placeholder="GH/s" min="0" oninput="validateInput(this); calculateAmount('ghs')">
+            <p>Введите сумму для увеличения добычи:</p>
+            <input type="number" id="increaseAmount" placeholder="Сумма" min="0" oninput="validateInput(this); calculateAmount('amount')">
+            <p>Адрес кошелька: <strong>UQD-d3vPtKuTZQr-lniQ-hTgSqdUhoCo0jkQgZ4gyBLW6h7T</strong></p>
+            <button class="top-button" onclick="submitIncrease()">Отправить</button>
+            <button class="top-button" onclick="hideMenu('increaseMiningInfo')">Закрыть</button>
+        </div>
+        <div class="friends-info" id="friendsInfo">
+            <p>Пригласить друзей</p>
+            <button class="top-button" onclick="inviteFriends()">Пригласить через Telegram</button>
+            <button class="top-button" onclick="hideMenu('friendsInfo')">Закрыть</button>
+        </div>
+        <div class="wallet-balance-info" id="walletBalanceInfo">
+            <p>Общий баланс:</p>
+            <p id="walletBalance">0.0000 TON</p>
+            <button class="top-button" onclick="sendToWallet()">Подтвердить</button>
+            <button class="top-button" onclick="hideMenu('walletBalanceInfo')">Отмена</button>
+        </div>
+    </div>
+    <script>
+        let mining = false;
+        let tonAmount = 0.0000000000;
+        let internalWallet = 0;
+        const ghsRate = 100;
+        const tonRate = 1;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.mining-display').textContent = `Ton: ${tonAmount.toFixed(10)}`;
+        });
+
+        function startMining() {
+            if (!mining) {
+                mining = true;
+                document.querySelector('.money-animation').classList.add('show-money-animation');
+                document.querySelector('.cirkl-animation').classList.add('show-cirkl-animation');
+                const miningRatePerSecond = 0.0000003805175;
+                miningInterval = setInterval(() => {
+                    if (mining) {
+                        tonAmount += miningRatePerSecond;
+                        document.querySelector('.mining-display').textContent = `Ton: ${tonAmount.toFixed(10)}`;
+                    }
+                }, 1000);
+            }
+        }
+
+        function increaseMining() {
+            tonAmount += 1;
+            document.querySelector('.mining-display').textContent = `Ton: ${tonAmount.toFixed(10)}`;
+        }
+
+        function toggleMenu(menuId) {
+            const menus = ['walletInfo', 'withdrawInfo', 'missionsInfo', 'increaseMiningInfo', 'friendsInfo', 'walletBalanceInfo'];
+            menus.forEach(id => {
+                if (id === menuId) {
+                    const menu = document.getElementById(id);
+                    if (menu.style.display === 'block') {
+                        menu.style.display = 'none';
+                    } else {
+                        menu.style.display = 'block';
+                    }
+                } else {
+                    document.getElementById(id).style.display = 'none';
+                }
+            });
+        }
+
+        function hideMenu(menuId) {
+            document.getElementById(menuId).style.display = 'none';
+        }
+
+        function copyAddress() {
+            const address = 'UQD-d3vPtKuTZQr-lniQ-hTgSqdUhoCo0jkQgZ4gyBLW6h7T';
+            navigator.clipboard.writeText(address).then(() => {
+                alert('Адрес скопирован в буфер обмена');
+            }, () => {
+                alert('Не удалось скопировать адрес');
+            });
+        }
+
+        function submitWithdrawal() {
+            const walletAddress = document.getElementById('walletAddress').value;
+            const amount = document.getElementById('tonAmount').value;
+
+            if (walletAddress && amount > 0) {
+                console.log(`Вывод Toncoin: Адрес - ${walletAddress}, Количество - ${amount}`);
+                alert(`Вывод Toncoin: Адрес - ${walletAddress}, Количество - ${amount}`);
+                hideMenu('withdrawInfo');
+            } else {
+                alert('Пожалуйста, введите корректные данные.');
+            }
+        }
+
+        function sendToWallet() {
+            internalWallet += tonAmount;
+            tonAmount = 0;
+            document.querySelector('.mining-display').textContent = `Ton: ${tonAmount.toFixed(10)}`;
+            alert(`Все намайненные Ton перемещены в кошелек. Баланс кошелька: ${internalWallet.toFixed(10)} TON`);
+            hideMenu('walletBalanceInfo');
+        }
+
+        function showWalletBalance() {
+            document.getElementById('walletBalance').textContent = `${internalWallet.toFixed(10)} TON`;
+            toggleMenu('walletBalanceInfo');
+        }
+
+        function submitIncrease() {
+            const ghsAmount = document.getElementById('ghsAmount').value;
+            const increaseAmount = document.getElementById('increaseAmount').value;
+
+            if (ghsAmount && increaseAmount > 0) {
+                console.log(`Увеличение добычи: ${ghsAmount} GH/s за ${increaseAmount} TON`);
+                alert(`Увеличение добычи: ${ghsAmount} GH/s за ${increaseAmount} TON`);
+                hideMenu('increaseMiningInfo');
+            } else {
+                alert('Пожалуйста, введите корректные данные.');
+            }
+        }
+
+        function calculateAmount(source) {
+            const ghsInput = document.getElementById('ghsAmount');
+            const amountInput = document.getElementById('increaseAmount');
+
+            if (source === 'ghs') {
+                const ghsValue = parseFloat(ghsInput.value) || 0;
+                amountInput.value = (ghsValue / ghsRate).toFixed(2);
+            } else if (source === 'amount') {
+                const amountValue = parseFloat(amountInput.value) || 0;
+                ghsInput.value = (amountValue * ghsRate).toFixed(0);
+            }
+        }
+
+        function validateInput(input) {
+            if (input.value < 0) {
+                input.value = 0;
+            }
+        }
+
+        function inviteFriends() {
+            const link = 'https://t.me/share/url?url=YourLinkHere';
+            window.open(link, '_blank');
+        }
+    </script>
+
+<script>
+    async function registerUser(username, walletAddress) {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, walletAddress })
+        });
+    
+        const data = await response.json();
+        if (response.ok) {
+            alert('Регистрация успешна!');
+        } else {
+            alert(`Ошибка: ${data.message}`);
+        }
+    }
+    </script>
+</body>
+</html>
