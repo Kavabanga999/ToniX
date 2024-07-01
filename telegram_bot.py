@@ -3,8 +3,8 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppI
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 import requests
 
-TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
-API_URL = 'https://your-glitch-app-url.glitch.me'  # Обновите URL на ваш Glitch URL
+TOKEN = '7452719949:AAGQpWGUTYftlbxTTzEvul38OBKVX6NtHSI'
+API_URL = 'https://7d74-46-211-122-112.ngrok-free.app'  # Обновите URL на ваш Glitch URL
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
